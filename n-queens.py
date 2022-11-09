@@ -1,19 +1,34 @@
+# def filter_available_squares(candidate_squares, queen):
+#     available_squares = []
+#     for square in candidate_squares:
+#         # check columns
+#         if square[1] != queen[1]:
+#             # check rows
+#             if square[0] != queen[0]:
+#                 # check positive diag
+#                 if square != (queen[0] + 1, queen[1] + 1):
+#                     # check negative diag
+#                     if square != (queen[0] + 1, queen[1] - 1):
+#                         available_squares.append(square)
+#     return available_squares
+
+
 def filter_available_squares(candidate_squares, queen):
     available_squares = []
     for square in candidate_squares:
+        # if square[1] != queen[1] and square[0] != queen[0]:
+        #     if abs(square[1] - queen[1]) != abs(square[0] - queen[0]):
+        #         available_squares.append(square)
         # check columns
         if square[1] != queen[1]:
             # check rows
             if square[0] != queen[0]:
-                # check positive diag
-                if square != (queen[0] + 1, queen[1] + 1):
-                    # check negative diag
-                    if square != (queen[0] + 1, queen[1] - 1):
-                        available_squares.append(square)
+                # check diag
+                if abs(square[1] - queen[1]) != abs(square[0] - queen[0]):
+                    available_squares.append(square)
     return available_squares
 
-
-N = 5
+N = 8
 
 # available_squares = [
 #     (0,0),
@@ -33,6 +48,7 @@ N = 5
 #     (3,2),
 #     (3,3),
 # ]
+
 
 # n-queens: for each column, do this
 for i in range(N):
