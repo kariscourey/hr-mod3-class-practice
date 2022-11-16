@@ -1,23 +1,47 @@
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS trucks;
+DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS truck_menu_items;
+DROP TABLE IF EXISTS menu_items;
 
 CREATE TABLE users (
-    id SERIAL NOT NULL PRIMARY KEY,
-    first TEXT NOT NULL,
-    last TEXT NOT NULL,
-    avatar TEXT NOT NULL,
-    email TEXT NOT NULL,
-    username TEXT NOT NULL,
-    referrer_id INTEGER REFERENCES users("id") ON DELETE CASCADE
-)
+  id INTEGER NOT NULL UNIQUE,
+  first TEXT NOT NULL,
+  last TEXT NOT NULL,
+  avatar TEXT NOT NULL,
+  email TEXT NOT NULL,
+  username TEXT NOT NULL
+);
 
 CREATE TABLE trucks (
-    id SERIAL NOT NULL PRIMARY KEY,
+  id INTEGER NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  website TEXT NOT NULL,
+  category TEXT NOT NULL,
+  vegetarian_friendly BOOLEAN NOT NULL,
+  owner_id INTEGER NOT NULL REFERENCES users(id)
+);
+
+CREATE TABLE reviews (
+  id INTEGER NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL,
+  reviewer_id INTEGER REFERENCES users("id"),
+  rating INTEGER NOT NULL,
+  truck_id INTEGER NOT NULL REFERENCES trucks("id")
+);
+
+CREATE TABLE truck_menu_items (
+  truck_id INTEGER NOT NULL REFERENCES trucks("id"),
+  menu_item_id INTEGER NOT NULL REFERENCES menu_items("id"),
+  price INTEGER NOT NULL
+);
+
+CREATE TABLE menu_items (
+    id INTEGER NOT NULL UNIQUE,
     name TEXT NOT NULL,
-    website TEXT NOT NULL,
-    category TEXT NOT NULL check(category='American' or category='Asian' or category='French' or category='Mediterranean'),
-    vegetarian_friendly BOOLEAN NOT NULL,
-    owner_id INTEGER REFERENCES users("id") ON DELETE CASCADE
-)
+    calories INTEGER NOT NULL
+);
 
 INSERT INTO users VALUES
     (1, 'Winnie', 'Pooh', '17000.jpeg', 'wpooh@gmail.com', 'wpooh', null),
